@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NG GAMING FF - Free Fire Store</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #FFFFFF;
+  color: #171717;
+  min-height: 100vh;
+}
+
+.container {
+  width: 94%;
+  max-width: 700px;
+  margin: 20px auto;
+}
+
+/* FREE FIRE IMAGE BOX */
+.store-image-box {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, #FFFFFF, #FFF0F0);
+  border: 1px solid #FFD1D1;
+  border-radius: 14px;
+  margin-bottom: 22px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(230,30,30,0.16);
+}
+
+.store-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* SECTION TITLES */
+.section-title {
+  font-size: 22px;
+  margin: 22px 0 14px;
+  color: #171717;
+  font-weight: 800;
+}
+
+/* REDEEM GENERATOR */
+.redeem-box {
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+.redeem-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.play-logo {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.redeem-header h2 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #171717;
+}
+
+.redeem-header p {
+  color: #555555;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.redeem-box label {
+  display: block;
+  color: #222222;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.redeem-box input {
+  width: 100%;
+  padding: 13px;
+  background: #FFFFFF;
+  color: #171717;
+  border: 1px solid #CCCCCC;
+  border-radius: 9px;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.redeem-box input:focus {
+  border-color: #19B96B;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25,185,107,0.12);
+}
+
+.redeem-box input::placeholder,
+#uidInput::placeholder {
+  color: #777777;
+}
+
+.generate-btn {
+  display: none;
+  width: 100%;
+  padding: 14px;
+  background: #19B96B;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.generate-btn:hover {
+  background: #119653;
+}
+
+#redeemResult {
+  display: none;
+  margin-top: 20px;
+  padding: 14px;
+  border: 1px solid #B8E8CB;
+  background: #F0FFF5;
+  border-radius: 10px;
+}
+
+.generated-label {
+  color: #087A3C;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.code-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#generatedCode {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #B42318;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.copy-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 7px;
+  background: #FFCC00;
+  color: #171717;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.demo-note {
+  color: #555555;
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+#copyMessage {
+  color: #087A3C;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* DIAMOND PACKAGES */
+.packages {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.package {
+  background: #FFFFFF;
+  border: 1px solid #E2E2E2;
+  border-radius: 14px;
+  padding: 18px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.package:hover {
+  transform: translateY(-3px);
+  border-color: #FF3030;
+  box-shadow: 0 5px 16px rgba(255,0,0,0.13);
+}
+
+.package.free {
+  border: 2px solid #19B96B;
+  background: #F4FFF7;
+}
+
+.diamonds {
+  font-size: 20px;
+  font-weight: 900;
+  color: #171717;
+}
+
+.price {
+  margin-top: 8px;
+  font-size: 17px;
+  color: #D71920;
+  font-weight: bold;
+}
+
+.free .price {
+  color: #07853F;
+}
+
+/* UID FORM */
+.uid-box {
+  display: none;
+  background: #FFFFFF;
+  border: 1px solid #E1E1E1;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.selected {
+  color: #A47700;
+  font-weight: bold;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+#uidInput {
+  width: 100%;
+  padding: 14px;
+  border-radius: 9px;
+  border: 1px solid #CCCCCC;
+  background: #FFFFFF;
+  color: #171717;
+  font-size: 16px;
+  outline: none;
+}
+
+#uidInput:focus {
+  border-color: #FF3030;
+  box-shadow: 0 0 0 3px rgba(255,48,48,0.10);
+}
+
+.send-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border: none;
+  border-radius: 9px;
+  background: #E52222;
+  color: #FFFFFF;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.send-btn:hover {
+  background: #C91919;
+}
+
+/* ORDER HISTORY */
+.history {
+  margin-top: 25px;
+}
+
+.history-item {
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  padding: 13px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #222222;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.history-item b {
+  color: #171717;
+}
+
+.clear-btn {
+  background: #FFFFFF;
+  color: #D71920;
+  border: 1px solid #D71920;
+  border-radius: 7px;
+  padding: 8px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.clear-btn:hover {
+  background: #FFF0F0;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 30px 10px;
+  color: #666666;
+  font-size: 12px;
+  line-height: 1.8;
+  background: #FFFFFF;
+  border-top: 1px solid #EEEEEE;
+  margin-top: 25px;
+}
+
+/* POPUPS */
+.overlay,
+.success-popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.loader-box,
+.success-box {
+  width: 85%;
+  max-width: 350px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  color: #171717;
+}
+
+.loader-box {
+  border: 1px solid #DDDDDD;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #EEEEEE;
+  border-top: 5px solid #FF3030;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 18px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: #333333;
+  line-height: 1.6;
+}
+
+.success-popup {
+  z-index: 1100;
+}
+
+.success-box {
+  border: 2px solid #19B96B;
+  animation: popup 0.25s ease;
+}
+
+@keyframes popup {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.check {
+  font-size: 50px;
+  color: #19B96B;
+}
+
+.success-title {
+  margin-top: 8px;
+  font-size: 22px;
+  color: #087A3C;
+  font-weight: bold;
+}
+
+.success-message {
+  margin-top: 10px;
+  color: #333333;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.success-message b {
+  font-weight: 800;
+  color: #171717;
+}
+
+.close-btn {
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #19B96B;
+  color: #FFFFFF;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 430px) {
+  .store-image-box {
+    height: 150px;
+    border-radius: 12px;
+  }
+
+  .diamonds {
+    font-size: 17px;
+  }
+
+  .price {
+    font-size: 15px;
+  }
+
+  .redeem-header h2 {
+    font-size: 16px;
+  }
+
+  .redeem-box {
+    padding: 14px;
+  }
+
+  .packages {
+    gap: 10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- FREE FIRE IMAGE -->
+  <div class="store-image-box">
+    <img src="ff.png" alt="Free Fire Store"
+         onerror="this.style.display='none'">
+  </div>
+
+  <!-- REDEEM CODE GENERATOR -->
+  <div class="redeem-box">
+
+    <div class="redeem-header">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_Play_2022_icon.svg"
+        alt="Google Play Logo"
+        class="play-logo"
+      >
+
+      <div>
+        <h2>PlayStore Redeem Code</h2>
+        <p>Linked With Google Pay & Phonepay </p>
+      </div>
+    </div>
+
+    <label for="redeemPrice">Enter Price (₹)</label>
+
+    <input
+      type="number"
+      id="redeemPrice"
+      placeholder="Enter price, e.g. 100"
+      min="1"
+      step="1"
+    >
+
+    <button
+      type="button"
+      id="generateBtn"
+      class="generate-btn"
+      onclick="generateRedeemCode()"
+    >
+      🎟️ Generate Redeem Code
+    </button>
+
+    <div id="redeemResult">
+      <p class="generated-label">Redeem Code Generated! </p>
+
+      <div class="code-row">
+        <span id="generatedCode"></span>
+        <button
+          type="button"
+          class="copy-btn"
+          onclick="copyRedeemCode()"
+        >COPY</button>
+      </div>
+
+      <p class="demo-note">
+        This is a Redeem code selected from the Google Pay & Phonepay website's
+        .Paid By Google Pay.
+        
+      </p>
+
+      <p id="copyMessage"></p>
+    </div>
+
+  </div>
+
+  <!-- DIAMOND PACKAGES -->
+  <h2 class="section-title">💎 Diamond Packages</h2>
+
+  <div class="packages">
+
+    <div class="package free"
+      onclick="selectPackage('1500 💎','Free - Subscriber')">
+      <div class="diamonds">1500 💎</div>
+      <div class="price">Only For Subscribers</div>
+    </div>
+
+    <div class="package"
+      onclick="selectPackage('4000 💎','₹40')">
+      <div class="diamonds">4000 💎</div>
+      <div class="price">₹40</div>
+    </div>
+
+    <div class="package"
+      onclick="selectPackage('8000 💎','₹60')">
+      <div class="diamonds">8000 💎</div>
+      <div class="price">₹60</div>
+    </div>
+
+    <div class="package"
+      onclick="selectPackage('10000 💎','₹80')">
+      <div class="diamonds">10000 💎</div>
+      <div class="price">₹80</div>
+    </div>
+
+    <div class="package"
+      onclick="selectPackage('15000 💎','₹100')">
+      <div class="diamonds">15000 💎</div>
+      <div class="price">₹100</div>
+    </div>
+
+    <div class="package"
+      onclick="selectPackage('20000 💎','₹150')">
+      <div class="diamonds">20000 💎</div>
+      <div class="price">₹150</div>
+    </div>
+
+  </div>
+
+  <!-- UID FORM -->
+  <div class="uid-box" id="uidBox">
+
+    <div class="selected" id="selectedPackage"></div>
+
+    <input
+      id="uidInput"
+      type="text"
+      inputmode="numeric"
+      maxlength="20"
+      placeholder="Enter Free Fire UID"
+    >
+
+    <button class="send-btn" onclick="submitOrder()">
+      SEND ORDER
+    </button>
+
+  </div>
+
+  <!-- ORDER HISTORY -->
+  <div class="history">
+    <h2 class="section-title">&#127942;Received FF UID</h2>
+
+    <div id="historyList"></div>
+
+    <button class="clear-btn" onclick="clearHistory()">
+      Clear History
+    </button>
+  </div>
+
+</div>
+
+<footer class="footer">
+  © 2026 NG GAMING FF<br>
+  Free Fire Gaming • Live • Gameplay • Shorts
+</footer>
+
+<!-- LOADING POPUP -->
+<div class="overlay" id="loadingOverlay">
+  <div class="loader-box">
+    <div class="spinner"></div>
+    <div class="loading-text">
+      Processing your order request...
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS POPUP -->
+<div class="success-popup" id="successPopup">
+  <div class="success-box">
+
+    <div class="check">✓</div>
+
+    <div class="success-title">Send Successfully!</div>
+
+    <div class="success-message" id="successMessage"></div>
+
+    <button class="close-btn" onclick="closeSuccess()">
+      OK
+    </button>
+  </div>
+</div>
+
+<script>
+let selectedDiamond = "";
+let selectedPrice = "";
+
+/* PRESET DEMO CODE LIST */
+const redeemCodes = [
+  "7XJVM4CBX75Z1F9K",
+  "EE7M2SY016N7BNSE",
+  "5JDHPMAV6SNYDEN4",
+  "685S4SG8XATGK14C",
+  "4ST1ZTBZBRP9",
+  "FT4E9Y5U1I3O",
+  "FM6N1B8V3C4X",
+  "FFM1VSWCPXN9",
+  "QK82S2LX5Q27",
+  "FL2K6J4H8G5F",
+  "FK3J9H5G1F7D",
+  "FU1I5O3P7A9S",
+  "FE2R8T6Y4U1I",
+  "FZ5X1C7V9B2N",
+  "U5W8Y2Z4A6B1C87E",
+  "9B1C84D6F8G3H5J7",
+  "N2P5R7T9U1V38X6Z",
+  "4A6C8D92F4G7H9J1",
+  "L3M59N7P9Q1R4T6V",
+  "X7Z9A2B4C6D98E1G",
+  "Q3W9SE2R5T7Y1U4I",
+  "K6L2M8N3P1RS9T5W",
+  "V4X5Z8A6B7C38D9F",
+  "G1H3J85K7L9M2N4P",
+  "Y7Z9A1B4C6D88E2G",
+  "6F9H1J3K7L4M2N5P",
+  "18K2M4N7P9Q38R5T",
+  "D6G28J4L7M9N1P3Q",
+  "2H4J69K8L1M3N5P7",
+  "2X9U6Y4A8B3C7D5F",
+  "J6R3D7NS9P1T8U2W",
+  "E4F5H7K1L2M9NS3P",
+  "T5R2V9SW1X6Y3Z8A",
+  "7B9C1D4F6G8H2SSJ"
+];
+
+/* SHOW GENERATE BUTTON */
+document.getElementById("redeemPrice").addEventListener(
+  "input",
+  function() {
+    const price = Number(this.value);
+
+    const valid =
+      this.value.trim() !== "" &&
+      Number.isSafeInteger(price) &&
+      price > 0;
+
+    document.getElementById("generateBtn").style.display =
+      valid ? "block" : "none";
+  }
+);
+
+/* GENERATE DEMO CODE */
+function generateRedeemCode() {
+  const input = document.getElementById("redeemPrice");
+  const price = Number(input.value);
+
+  if (
+    input.value.trim() === "" ||
+    !Number.isSafeInteger(price) ||
+    price <= 0
+  ) {
+    alert("Please enter a valid price.");
+    return;
+  }
+
+  const randomIndex = Math.floor(
+    Math.random() * redeemCodes.length
+  );
+
+  document.getElementById("generatedCode").textContent =
+    redeemCodes[randomIndex];
+
+  document.getElementById("redeemResult").style.display = "block";
+  document.getElementById("copyMessage").textContent = "";
+
+  document.getElementById("redeemResult").scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
+}
+
+/* COPY DEMO CODE */
+async function copyRedeemCode() {
+  const code =
+    document.getElementById("generatedCode").textContent;
+
+  const message = document.getElementById("copyMessage");
+
+  try {
+    await navigator.clipboard.writeText(code);
+    message.textContent = "Code copied!";
+  } catch (error) {
+    const temp = document.createElement("textarea");
+
+    temp.value = code;
+    temp.style.position = "fixed";
+    temp.style.opacity = "0";
+
+    document.body.appendChild(temp);
+    temp.select();
+
+    const copied = document.execCommand("copy");
+    temp.remove();
+
+    message.textContent = copied
+      ? "Code copied!"
+      : "Please copy the code manually.";
+  }
+}
+
+/* SELECT DIAMOND PACKAGE */
+function selectPackage(diamond, price) {
+  selectedDiamond = diamond;
+  selectedPrice = price;
+
+  document.getElementById("selectedPackage").textContent =
+    "Selected: " + diamond + " — " + price;
+
+  document.getElementById("uidBox").style.display = "block";
+
+  document.getElementById("uidBox").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+  setTimeout(function() {
+    document.getElementById("uidInput").focus();
+  }, 400);
+}
+
+/* SUBMIT ORDER REQUEST */
+function submitOrder() {
+  const uid = document.getElementById("uidInput").value.trim();
+
+  if (!selectedDiamond) {
+    alert("Please select a diamond package first.");
+    return;
+  }
+
+  if (!uid) {
+    alert("Please enter your Free Fire UID.");
+    return;
+  }
+
+  if (!/^[0-9]+$/.test(uid)) {
+    alert("Please enter a valid numeric UID.");
+    return;
+  }
+
+  document.getElementById("loadingOverlay").style.display = "flex";
+
+  setTimeout(function() {
+    document.getElementById("loadingOverlay").style.display = "none";
+
+    const now = new Date();
+
+    const order = {
+      diamond: selectedDiamond,
+      price: selectedPrice,
+      uid: uid,
+      date: now.toLocaleDateString() + " " +
+            now.toLocaleTimeString()
+    };
+
+    const saved = saveOrder(order);
+
+    document.getElementById("successMessage").innerHTML =
+      "<b>Package:</b> " + selectedDiamond +
+      "<br><b>Price:</b> " + selectedPrice +
+      "<br><b>UID:</b> " + uid +
+      (saved
+        ? "<br><b>MESSAGE:</b> Check FreeFire Mail Box & Claim."
+        : "<br><b>MESSAGE:</b> Request could not be saved.");
+
+    document.getElementById("successPopup").style.display = "flex";
+    document.getElementById("uidInput").value = "";
+
+  }, 1000);
+}
+
+/* CLOSE SUCCESS POPUP */
+function closeSuccess() {
+  document.getElementById("successPopup").style.display = "none";
+}
+
+/* SAVE ORDER HISTORY ON THIS DEVICE */
+function saveOrder(order) {
+  try {
+    let history = JSON.parse(
+      localStorage.getItem("ngGamingOrders")
+    ) || [];
+
+    history.unshift(order);
+
+    localStorage.setItem(
+      "ngGamingOrders",
+      JSON.stringify(history)
+    );
+
+    displayHistory();
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+/* DISPLAY ORDER HISTORY */
+function displayHistory() {
+  const historyList = document.getElementById("historyList");
+  let history = [];
+
+  try {
+    history = JSON.parse(
+      localStorage.getItem("ngGamingOrders")
+    ) || [];
+
+    if (!Array.isArray(history)) history = [];
+  } catch (error) {
+    history = [];
+  }
+
+  historyList.innerHTML = "";
+
+  if (history.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "history-item";
+    empty.textContent = "No orders yet.";
+    historyList.appendChild(empty);
+    return;
+  }
+
+  history.forEach(function(order) {
+    const item = document.createElement("div");
+    item.className = "history-item";
+
+    const title = document.createElement("b");
+    title.textContent = order.diamond || "Package";
+
+    const price = document.createElement("div");
+    price.textContent = "Price: " + (order.price || "-");
+
+    const uid = document.createElement("div");
+    uid.textContent = "UID: " + (order.uid || "-");
+
+    const date = document.createElement("small");
+    date.textContent = order.date || "";
+
+    const status = document.createElement("div");
+    status.style.color = "#087A3C";
+    status.style.fontWeight = "bold";
+    status.textContent = "Congraculations! Player Received Daimond";
+
+    item.append(title, price, uid, date, status);
+    historyList.appendChild(item);
+  });
+}
+
+/* CLEAR HISTORY */
+function clearHistory() {
+  if (!confirm("Are you sure you want to clear order history?")) {
+    return;
+  }
+
+  localStorage.removeItem("ngGamingOrders");
+  displayHistory();
+}
+
+/* INITIALIZE HISTORY */
+displayHistory();
+</script>
+
+</body>
+</html>
